@@ -70,6 +70,13 @@ namespace CommunityLibrary.Controllers
            
             return Ok(books);
         }
+        [HttpGet("test")]
+        public ActionResult testCodeQL(string ID)
+        {
+            string query = $"Select * from user where id = {ID}";
+
+            return Ok(query);
+        }
 
     }
 }
