@@ -28,6 +28,7 @@ namespace CommunityLibrary.Repository
         {
             var loan = await _db.Loan.Include(l => l.Book).AsNoTracking().FirstOrDefaultAsync(l => l.Id == loanId, ct);
 
+
             if (loan is null)
             {
                 throw new NotFoundApiException("BOOK_NOT_FOUND", $"No book found with id '{loanId}'.");
@@ -79,7 +80,7 @@ namespace CommunityLibrary.Repository
 
             if (book is null)
             {
-                throw new NotFoundApiException("BOOK_NOT_FOUND", $"No book found with id '{bookId}'.");
+                throw new NotFoundApiException("BOOK_NOT_FOUND", $"No book found with id '{bookId}'. change it ");
             }
 
             if (book.Status != BookStatus.Available)
