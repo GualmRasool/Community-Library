@@ -4,6 +4,7 @@ using CommunityLibrary.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace CommunityLibrary.Controllers
 {
@@ -71,11 +72,17 @@ namespace CommunityLibrary.Controllers
             return Ok(books);
         }
         [HttpGet("test")]
-        public ActionResult testCodeQL(string ID)
+        public ActionResult testCodeQL(string id)
         {
-            string query = $"Select * from user where id = {ID}";
+            var connection = new SqlConnection("Server=localhost;Database=TestDb;");
 
-            return Ok(query);
+            var cmd = new SqlCommand(
+            $"SELECT * FROM Users WHERE Id = {id}",
+            connection);
+
+            return Ok();
+
+            //return Ok(query);
         }
 
     }
