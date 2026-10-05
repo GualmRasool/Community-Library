@@ -18,6 +18,8 @@ namespace CommunityLibrary.Repository
         {
             IQueryable<Book> books = _db.Books.AsNoTracking();
 
+            
+
             if (!string.IsNullOrWhiteSpace(query))
             {
                 books = books.Where(b => b.Title.Contains(query, StringComparison.OrdinalIgnoreCase)

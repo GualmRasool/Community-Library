@@ -33,7 +33,9 @@ builder.Services.AddScoped<ILoansRepository, LoansRepository>();
 builder.Services.AddSingleton(TimeProvider.System);
 
 builder.Services.AddDbContext<LibraryDbContext>(options =>
-options.UseInMemoryDatabase("LibraryDb"));
+    options.UseInMemoryDatabase("LibraryDb")
+   
+);
 
 
 var app = builder.Build();

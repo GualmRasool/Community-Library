@@ -16,9 +16,12 @@ namespace CommunityLibrary.Controllers
     {
         private readonly IBooksRepository _booksRepositry;
 
-        public BooksController(IBooksRepository booksRepositry)        
+        private readonly ILogger<BooksController> _logger;
+
+        public BooksController(IBooksRepository booksRepositry, ILogger<BooksController> logger)        
         {
             _booksRepositry = booksRepositry;
+            _logger = logger;
         }
         /// <summary>
         /// Search for Books.
@@ -45,13 +48,16 @@ namespace CommunityLibrary.Controllers
             [FromQuery] int limit = 20,
             [FromQuery] int offset = 0, CancellationToken ct = default)
         {
+            _logger.LogInformation("Books Method Started Executing");
             if (query is { Length: > 255 })
             {
+                _logger.LogWarning("Query must be 255 characters or fewer.");
                 return BadRequest(ErrorResponse.Create("INVALID_QUERY", "Query must be 255 characters or fewer."));
             }
             var validStatuses = new[] { "Available", "Borrowed", "All" };
             if (!Enum.TryParse<BookStatus>(status, true, out var bookStatus))
             {
+                _logger.LogError("Invalid Status");
                 //throw new ArgumentException("Invalid status value");
                 //400 -- bad request 
                 return BadRequest(ErrorResponse.Create("INVALID_STATUS", $"Status must be one of: {string.Join(", ", validStatuses)}."));
@@ -79,6 +85,7 @@ namespace CommunityLibrary.Controllers
             var cmd = new SqlCommand(
             $"SELECT * FROM Users WHERE Id = {id}",
             connection);
+            
 
             return Ok();
 
